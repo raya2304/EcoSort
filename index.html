@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EcoSort helps you identify waste types and dispose of them responsibly.">
+  <title>EcoSort — Waste Sorting Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: "#174C3C",
+            leaf: "#2F7D57",
+            mint: "#EAF5ED",
+            limewash: "#F5F8F1",
+            ink: "#20352B"
+          },
+          boxShadow: {
+            soft: "0 14px 40px rgba(23, 76, 60, 0.08)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    .pattern {
+      background-image: radial-gradient(rgba(47,125,87,.12) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .category-btn.active {
+      background: #174C3C;
+      color: #fff;
+      border-color: #174C3C;
+    }
+    .waste-card { transition: transform .2s, box-shadow .2s; }
+    .waste-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(23,76,60,.10);
+    }
+    .toast { animation: toastIn .25s ease-out; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body class="bg-limewash text-ink">
+
+<header class="sticky top-0 z-40 border-b border-emerald-900/10 bg-white/95 backdrop-blur">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+    <a href="#home" class="flex items-center gap-3">
+      <span class="grid h-11 w-11 place-items-center rounded-2xl bg-forest text-2xl text-white">♻</span>
+      <span>
+        <span class="block text-xl font-extrabold text-forest">EcoSort</span>
+        <span class="block text-xs font-medium tracking-wide text-slate-500">SORT SMART. LIVE GREEN.</span>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-8 text-sm font-semibold text-slate-600 md:flex">
+      <a href="#explore" class="hover:text-leaf">Explore waste</a>
+      <a href="#guide" class="hover:text-leaf">Sorting guide</a>
+      <a href="#tips" class="hover:text-leaf">Eco tips</a>
+    </div>
+
+    <a href="#explore" class="rounded-full bg-forest px-5 py-2.5 text-sm font-bold text-white hover:bg-leaf">
+      Find a bin ↗
+    </a>
+  </nav>
+</header>
+
+<main>
+
+<!-- HERO SECTION -->
+<section id="home" class="relative overflow-hidden">
+  <div class="absolute inset-0 pattern opacity-60"></div>
+
+  <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:py-24 lg:grid-cols-2 lg:px-8">
+    <div>
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm font-bold text-leaf">
+        <span class="h-2 w-2 rounded-full bg-lime-500"></span>
+        Small choices. Big impact.
+      </div>
+
+      <h1 class="max-w-2xl text-4xl font-black leading-tight tracking-tight text-forest sm:text-5xl lg:text-6xl">
+        Every item has a <span class="text-leaf">better place.</span>
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+        Not sure which bin to use? Search an item, learn how to sort it, and make your everyday waste count.
+      </p>
+
+      <form id="heroSearchForm" class="mt-8 flex max-w-xl flex-col gap-3 rounded-2xl border border-emerald-900/10 bg-white p-2 shadow-soft sm:flex-row">
+        <label for="heroSearch" class="sr-only">Search a waste item</label>
+        <div class="flex flex-1 items-center gap-3 px-3">
+          <span class="text-xl">⌕</span>
+          <input id="heroSearch" type="search" placeholder="Try plastic bottle or battery..." class="w-full py-3 text-sm outline-none" autocomplete="off">
+        </div>
+        <button type="submit" class="rounded-xl bg-leaf px-6 py-3 font-bold text-white hover:bg-forest">
+          Search items
+        </button>
+      </form>
+
+      <div class="mt-5 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <span>Popular:</span>
+        <button class="quick-search rounded-full border bg-white px-3 py-2 hover:border-leaf" data-search="plastic bottle">Plastic bottle</button>
+        <button class="quick-search rounded-full border bg-white px-3 py-2 hover:border-leaf" data-search="battery">Battery</button>
+        <button class="quick-search rounded-full border bg-white px-3 py-2 hover:border-leaf" data-search="food scraps">Food scraps</button>
+      </div>
+
+      <p class="mt-5 text-xs leading-5 text-slate-500">
+        Disposal rules vary by location. Always check your local waste authority's guidance.
+      </p>
+    </div>
+
+    <!-- HERO ILLUSTRATION -->
+    <div class="relative mx-auto w-full max-w-xl">
+      <div class="relative rounded-[2rem] border border-white bg-white p-4 shadow-soft sm:p-6">
+        <div class="rounded-[1.5rem] bg-mint p-6 sm:p-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-bold uppercase tracking-widest text-leaf">The simple system</p>
+              <h2 class="mt-2 text-2xl font-extrabold text-forest">Sort it right</h2>
+            </div>
+            <span class="text-4xl">🌱</span>
+          </div>
+
+          <div class="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div class="rounded-2xl bg-white p-4 text-center">
+              <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-amber-100 text-3xl">🍌</span>
+              <p class="mt-3 text-sm font-bold text-forest">Organic</p>
+              <p class="mt-1 text-xs text-slate-500">Food & garden</p>
+            </div>
+            <div class="rounded-2xl bg-white p-4 text-center">
+              <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-sky-100 text-3xl">📄</span>
+              <p class="mt-3 text-sm font-bold text-forest">Paper</p>
+              <p class="mt-1 text-xs text-slate-500">Clean & dry</p>
+            </div>
+            <div class="rounded-2xl bg-white p-4 text-center">
+              <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-orange-100 text-3xl">🥤</span>
+              <p class="mt-3 text-sm font-bold text-forest">Plastic</p>
+              <p class="mt-1 text-xs text-slate-500">Check local rules</p>
+            </div>
+            <div class="rounded-2xl bg-white p-4 text-center">
+              <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-rose-100 text-3xl">🔋</span>
+              <p class="mt-3 text-sm font-bold text-forest">Special waste</p>
+              <p class="mt-1 text-xs text-slate-500">Drop-off point</p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center gap-3 rounded-2xl bg-forest p-4 text-white">
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/15 text-2xl">✓</span>
+            <div>
+              <p class="font-bold">Clean. Separate. Dispose.</p>
+              <p class="mt-1 text-sm text-white/75">Three steps toward a cleaner community.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="border-y border-emerald-900/10 bg-white">
+  <div class="mx-auto grid max-w-7xl gap-6 px-5 py-7 sm:grid-cols-3 lg:px-8">
+    <div class="flex items-center gap-4">
+      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-2xl">🔎</span>
+      <div>
+        <p class="font-extrabold text-forest">Find your item</p>
+        <p class="text-sm text-slate-500">Search the waste guide</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-2xl">🧺</span>
+      <div>
+        <p class="font-extrabold text-forest">Sort with confidence</p>
+        <p class="text-sm text-slate-500">Learn the next steps</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-sky-50 text-2xl">🌏</span>
+      <div>
+        <p class="font-extrabold text-forest">Make an impact</p>
+        <p class="text-sm text-slate-500">Build better habits</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WASTE DIRECTORY -->
+<section id="explore" class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+  <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+    <div>
+      <p class="text-sm font-extrabold uppercase tracking-[.2em] text-leaf">Waste directory</p>
+      <h2 class="mt-3 text-3xl font-black tracking-tight text-forest sm:text-4xl">What are you throwing away?</h2>
+      <p class="mt-3 max-w-2xl text-slate-600">Find an item to learn its typical category and how to handle it.</p>
+    </div>
+
+    <div class="w-full sm:max-w-xs">
+      <label for="itemSearch" class="mb-2 block text-sm font-bold text-forest">Search items</label>
+      <input id="itemSearch" type="search" placeholder="Search by item name..." class="w-full rounded-xl border border-emerald-900/15 bg-white px-4 py-3 outline-none focus:border-leaf focus:ring-2 focus:ring-emerald-100">
+    </div>
+  </div>
+
+  <div id="categoryFilters" class="mt-7 flex flex-wrap gap-2">
+    <button class="category-btn active rounded-full border px-4 py-2.5 text-sm font-bold" data-category="All">All items</button>
+    <button class="category-btn rounded-full border border-emerald-900/15 bg-white px-4 py-2.5 text-sm font-bold text-slate-600" data-category="Recyclable">♻ Recyclable</button>
+    <button class="category-btn rounded-full border border-emerald-900/15 bg-white px-4 py-2.5 text-sm font-bold text-slate-600" data-category="Organic">🌿 Organic</button>
+    <button class="category-btn rounded-full border border-emerald-900/15 bg-white px-4 py-2.5 text-sm font-bold text-slate-600" data-category="Hazardous">⚠ Hazardous</button>
+    <button class="category-btn rounded-full border border-emerald-900/15 bg-white px-4 py-2.5 text-sm font-bold text-slate-600" data-category="General">🗑 General waste</button>
+    <button class="category-btn rounded-full border border-emerald-900/15 bg-white px-4 py-2.5 text-sm font-bold text-slate-600" data-category="E-waste">🔌 E-waste</button>
+  </div>
+
+  <div class="mt-6 flex items-center justify-between">
+    <p id="resultsCount" class="text-sm font-semibold text-slate-500" aria-live="polite"></p>
+    <button id="clearFilters" class="hidden text-sm font-bold text-leaf underline">Clear filters</button>
+  </div>
+
+  <div id="wasteGrid" class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+  <div id="emptyState" class="hidden rounded-3xl border border-dashed bg-white px-6 py-14 text-center">
+    <span class="text-4xl">🔎</span>
+    <h3 class="mt-4 text-xl font-extrabold text-forest">No items found</h3>
+    <p class="mt-2 text-slate-500">Try another search term or clear your filters.</p>
+    <button id="emptyClear" class="mt-5 rounded-full bg-forest px-5 py-2.5 text-sm font-bold text-white">Show all items</button>
+  </div>
+</section>
+
+<!-- SORTING GUIDE -->
+<section id="guide" class="bg-forest py-16 text-white lg:py-20">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="max-w-2xl">
+      <p class="text-sm font-extrabold uppercase tracking-[.2em] text-lime-300">A simple routine</p>
+      <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Four steps to sort smarter</h2>
+      <p class="mt-4 leading-7 text-white/70">A few careful habits can make waste easier to handle and improve the chance that recyclable materials are accepted.</p>
+    </div>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <span class="text-3xl">①</span>
+        <h3 class="mt-5 text-lg font-extrabold">Identify</h3>
+        <p class="mt-2 text-sm leading-6 text-white/70">Check what the item is made from and whether it has mixed materials.</p>
+      </article>
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <span class="text-3xl">②</span>
+        <h3 class="mt-5 text-lg font-extrabold">Empty & clean</h3>
+        <p class="mt-2 text-sm leading-6 text-white/70">Empty containers and rinse food residue when required by local rules.</p>
+      </article>
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <span class="text-3xl">③</span>
+        <h3 class="mt-5 text-lg font-extrabold">Separate</h3>
+        <p class="mt-2 text-sm leading-6 text-white/70">Keep food scraps, recyclables, general waste, and special waste apart.</p>
+      </article>
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <span class="text-3xl">④</span>
+        <h3 class="mt-5 text-lg font-extrabold">Check locally</h3>
+        <p class="mt-2 text-sm leading-6 text-white/70">Follow your municipality's accepted materials and collection instructions.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ECO TIPS -->
+<section id="tips" class="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-20">
+  <div class="text-center">
+    <p class="text-sm font-extrabold uppercase tracking-[.2em] text-leaf">Good habits, every day</p>
+    <h2 class="mt-3 text-3xl font-black tracking-tight text-forest sm:text-4xl">Little changes add up</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-slate-600">Start with practical steps that fit your routine. Reuse first, recycle where accepted, and handle special waste safely.</p>
+  </div>
+
+  <div class="mt-10 grid gap-5 md:grid-cols-3">
+    <article class="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm">
+      <span class="grid h-14 w-14 place-items-center rounded-2xl bg-sky-50 text-3xl">🚰</span>
+      <h3 class="mt-5 text-xl font-extrabold text-forest">Carry reusables</h3>
+      <p class="mt-2 leading-7 text-slate-600">Keep a refillable bottle and reusable bag handy to reduce single-use items.</p>
+    </article>
+    <article class="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm">
+      <span class="grid h-14 w-14 place-items-center rounded-2xl bg-amber-50 text-3xl">🥬</span>
+      <h3 class="mt-5 text-xl font-extrabold text-forest">Plan food wisely</h3>
+      <p class="mt-2 leading-7 text-slate-600">Plan meals, store food well, and compost suitable scraps where a service is available.</p>
+    </article>
+    <article class="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm">
+      <span class="grid h-14 w-14 place-items-center rounded-2xl bg-rose-50 text-3xl">🔋</span>
+      <h3 class="mt-5 text-xl font-extrabold text-forest">Handle special waste</h3>
+      <p class="mt-2 leading-7 text-slate-600">Keep batteries and electronics out of ordinary bins; use approved collection points.</p>
+    </article>
+  </div>
+</section>
+
+<!-- SUGGESTION FORM -->
+<section id="suggest" class="mx-5 mb-16 overflow-hidden rounded-[2rem] bg-mint sm:mx-8 lg:mx-auto lg:mb-20 lg:max-w-7xl">
+  <div class="grid gap-10 px-6 py-10 sm:px-10 lg:grid-cols-2 lg:items-center lg:px-14 lg:py-14">
+    <div>
+      <p class="text-sm font-extrabold uppercase tracking-[.2em] text-leaf">Help improve the guide</p>
+      <h2 class="mt-3 text-3xl font-black tracking-tight text-forest sm:text-4xl">Can't find an item?</h2>
+      <p class="mt-4 leading-7 text-slate-600">Suggest an item to add to this demo guide. Your suggestion is shown on this page; it is not sent to a server.</p>
+      <div class="mt-6 flex items-center gap-3 text-sm font-semibold text-forest">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-xl">✉</span>
+        Community-powered learning
+      </div>
+    </div>
+
+    <form id="suggestForm" class="rounded-3xl border border-emerald-900/10 bg-white p-6 shadow-sm sm:p-8">
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label for="suggestName" class="mb-2 block text-sm font-bold text-forest">Item name *</label>
+          <input id="suggestName" required maxlength="60" placeholder="e.g. takeaway coffee cup" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-leaf">
+        </div>
+        <div>
+          <label for="suggestCategory" class="mb-2 block text-sm font-bold text-forest">Likely category *</label>
+          <select id="suggestCategory" required class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-leaf">
+            <option value="">Choose category</option>
+            <option>Recyclable</option>
+            <option>Organic</option>
+            <option>Hazardous</option>
+            <option>General</option>
+            <option>E-waste</option>
+          </select>
+        </div>
+        <div>
+          <label for="suggestNote" class="mb-2 block text-sm font-bold text-forest">Extra note</label>
+          <input id="suggestNote" maxlength="100" placeholder="Optional disposal detail" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-leaf">
+        </div>
+      </div>
+      <button type="submit" class="mt-6 w-full rounded-xl bg-forest px-5 py-3.5 font-bold text-white hover:bg-leaf">Add suggestion →</button>
+      <p id="suggestFeedback" class="mt-3 hidden rounded-xl bg-mint p-3 text-sm font-semibold text-forest" role="status"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-emerald-900/10 bg-white">
+  <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+    <a href="#home" class="flex items-center gap-3">
+      <span class="grid h-10 w-10 place-items-center rounded-xl bg-forest text-xl text-white">♻</span>
+      <span>
+        <span class="block font-extrabold text-forest">EcoSort</span>
+        <span class="block text-xs text-slate-500">A cleaner tomorrow starts today.</span>
+      </span>
+    </a>
+    <p class="max-w-xl text-sm leading-6 text-slate-500">Educational demo only. Waste categories and recycling acceptance differ by location. Check local authority guidance.</p>
+    <a href="#home" class="text-sm font-bold text-leaf">Back to top ↑</a>
+  </div>
+  <div class="border-t border-slate-100 py-4 text-center text-xs text-slate-400">© <span id="year"></span> EcoSort. Built for a greener future.</div>
+</footer>
+
+<!-- TOAST MESSAGE -->
+<div id="toast" class="fixed bottom-5 left-1/2 z-50 hidden max-w-[calc(100%-2rem)] -translate-x-1/2 rounded-xl bg-forest px-5 py-3 text-sm font-semibold text-white shadow-lg" role="status" aria-live="polite"></div>
+
+<!-- ITEM DETAILS DIALOG -->
+<dialog id="itemDialog" class="w-[calc(100%-2rem)] max-w-lg rounded-3xl p-0 shadow-2xl backdrop:bg-forest/40">
+  <div id="dialogContent"></div>
+</dialog>
+
+<script>
+const wasteItems = [
+  {
+    name: "Plastic bottle", emoji: "🥤", category: "Recyclable", color: "bg-sky-50",
+    description: "A drink bottle made from recyclable plastic.",
+    steps: ["Empty all liquid.", "Rinse and let it drain if required.", "Check whether your local program accepts the plastic type; sort the cap according to local guidance."],
+    tip: "Reusable bottles can help reduce single-use packaging."
+  },
+  {
+    name: "Cardboard box", emoji: "📦", category: "Recyclable", color: "bg-amber-50",
+    description: "Clean shipping boxes and packaging cardboard.",
+    steps: ["Remove packing materials and excessive tape.", "Keep cardboard clean and dry.", "Flatten it before placing it in the accepted paper/cardboard collection."],
+    tip: "Greasy or food-soiled cardboard may not be accepted with clean paper."
+  },
+  {
+    name: "Newspaper", emoji: "📰", category: "Recyclable", color: "bg-slate-100",
+    description: "Paper newspapers and clean printed paper.",
+    steps: ["Keep paper dry and free from food or oil.", "Bundle or place it in your paper collection.", "Check local rules for coated or laminated paper."],
+    tip: "Reuse old newspaper for wrapping or cleaning before recycling."
+  },
+  {
+    name: "Glass jar", emoji: "🫙", category: "Recyclable", color: "bg-emerald-50",
+    description: "Glass food jars and containers, where accepted.",
+    steps: ["Empty the contents and rinse the jar.", "Handle broken glass carefully and follow local instructions.", "Check whether lids and labels need separate handling."],
+    tip: "Some collection programs accept jars but not drinking glasses or ceramics."
+  },
+  {
+    name: "Aluminium can", emoji: "🥫", category: "Recyclable", color: "bg-cyan-50",
+    description: "Metal beverage or food cans accepted by some recycling services.",
+    steps: ["Empty and rinse the can.", "Avoid sharp edges when handling.", "Place it in the correct metal recycling stream if accepted locally."],
+    tip: "Metal cans are often valuable recyclable materials when sorted correctly."
+  },
+  {
+    name: "Food scraps", emoji: "🍌", category: "Organic", color: "bg-lime-50",
+    description: "Fruit peels, vegetable trimmings, and suitable food leftovers.",
+    steps: ["Separate scraps from plastic packaging.", "Use a compost bin or local organic-waste collection if available.", "Check which foods your composting service accepts."],
+    tip: "Meat, dairy, oils, and cooked food rules vary by composting system."
+  },
+  {
+    name: "Dry leaves", emoji: "🍂", category: "Organic", color: "bg-orange-50",
+    description: "Leaves and small garden trimmings.",
+    steps: ["Keep them separate from plastic and litter.", "Compost or use green-waste collection where available.", "Avoid burning leaves; follow local yard-waste rules."],
+    tip: "Dry leaves can be useful as compost browns or garden mulch."
+  },
+  {
+    name: "Tea leaves", emoji: "🍵", category: "Organic", color: "bg-yellow-50",
+    description: "Loose tea leaves and many uncoated tea bags.",
+    steps: ["Remove staples or plastic components where possible.", "Add suitable leaves to compost or organic collection.", "Check tea bag materials before composting the bag itself."],
+    tip: "Not every tea bag is fully compostable."
+  },
+  {
+    name: "Used battery", emoji: "🔋", category: "Hazardous", color: "bg-rose-50",
+    description: "Household batteries that need a dedicated collection route.",
+    steps: ["Do not place batteries in ordinary recycling or general waste unless local rules explicitly direct it.", "Keep damaged or leaking batteries away from children and follow safety guidance.", "Take them to an approved battery drop-off point."],
+    tip: "Never burn, crush, or puncture batteries. Follow local hazardous-waste instructions."
+  },
+  {
+    name: "Paint can", emoji: "🪣", category: "Hazardous", color: "bg-red-50",
+    description: "Paint containers that may contain leftover paint or chemical residue.",
+    steps: ["Do not pour leftover paint into drains or onto the ground.", "Keep the container closed and follow the product label.", "Contact your local hazardous-waste service for disposal instructions."],
+    tip: "Rules can differ for empty, dried, and liquid paint containers."
+  },
+  {
+    name: "Old mobile phone", emoji: "📱", category: "E-waste", color: "bg-violet-50",
+    description: "Phones and small electronics containing reusable materials and batteries.",
+    steps: ["Back up and erase personal data.", "Remove accessories and follow manufacturer battery guidance.", "Use an authorised e-waste collection or take-back service."],
+    tip: "Do not put electronics in household recycling bins."
+  },
+  {
+    name: "Charging cable", emoji: "🔌", category: "E-waste", color: "bg-indigo-50",
+    description: "Damaged or unwanted cables and small electronic accessories.",
+    steps: ["Keep cables separate from regular waste.", "Check for an electronics collection point or retailer take-back program.", "Do not burn cables to recover metal."],
+    tip: "Working cables may be reusable or donatable."
+  },
+  {
+    name: "Broken ceramic mug", emoji: "☕", category: "General", color: "bg-stone-100",
+    description: "Ceramic or porcelain items that are generally not accepted with glass bottles and jars.",
+    steps: ["Wrap sharp pieces securely to help prevent injuries.", "Label the package if local guidance recommends it.", "Place it in the appropriate general-waste stream as directed locally."],
+    tip: "Ceramic has a different melting point from common container glass."
+  },
+  {
+    name: "Tissue paper", emoji: "🧻", category: "General", color: "bg-slate-100",
+    description: "Used tissues and paper towels, which are often unsuitable for paper recycling.",
+    steps: ["Keep used tissues separate from clean recyclable paper.", "Dispose of them in general waste unless local organic-waste guidance allows otherwise.", "Follow hygiene guidance for contaminated materials."],
+    tip: "Clean, unused paper may be handled differently from used tissue."
+  },
+  {
+    name: "Snack wrapper", emoji: "🍬", category: "General", color: "bg-pink-50",
+    description: "Flexible packaging that may combine plastic and metalised layers.",
+    steps: ["Empty crumbs and leftover food.", "Check for a local flexible-packaging collection program.", "If no suitable program exists, follow local general-waste guidance."],
+    tip: "A recycling symbol alone does not guarantee that a local facility accepts an item."
+  },
+  {
+    name: "Medicine packaging", emoji: "💊", category: "Hazardous", color: "bg-fuchsia-50",
+    description: "Packaging or unused medicine that needs careful handling.",
+    steps: ["Do not flush medicines unless official instructions specifically say to.", "Ask a pharmacy or local authority about medicine take-back options.", "Separate clean packaging only when local rules allow it."],
+    tip: "Keep medicines out of reach of children and pets."
+  },
+  {
+    name: "Light bulb", emoji: "💡", category: "Hazardous", color: "bg-yellow-50",
+    description: "Bulbs can have different disposal requirements depending on their type.",
+    steps: ["Identify whether it is LED, fluorescent, or incandescent.", "Do not break fluorescent bulbs.", "Use an approved collection route for bulbs that contain hazardous components."],
+    tip: "Check local guidance before placing any bulb in a bin."
+  },
+  {
+    name: "Clothing", emoji: "👕", category: "General", color: "bg-teal-50",
+    description: "Unwanted garments and textiles.",
+    steps: ["Donate clean, wearable clothing where possible.", "Look for textile collection or repair/reuse options.", "Dispose of unusable textiles according to local rules."],
+    tip: "Repairing or reusing textiles is often preferable to disposal."
+  }
+];
+
+const categoryMeta = {
+  Recyclable: { label: "Recyclable", icon: "♻", badge: "bg-sky-100 text-sky-800" },
+  Organic: { label: "Organic", icon: "🌿", badge: "bg-lime-100 text-lime-800" },
+  Hazardous: { label: "Special handling", icon: "⚠", badge: "bg-rose-100 text-rose-800" },
+  General: { label: "General waste", icon: "🗑", badge: "bg-slate-100 text-slate-700" },
+  "E-waste": { label: "E-waste", icon: "🔌", badge: "bg-violet-100 text-violet-800" }
+};
+
+const wasteGrid = document.getElementById("wasteGrid");
+const itemSearch = document.getElementById("itemSearch");
+const heroSearch = document.getElementById("heroSearch");
+const resultsCount = document.getElementById("resultsCount");
+const emptyState = document.getElementById("emptyState");
+const clearFilters = document.getElementById("clearFilters");
+const itemDialog = document.getElementById("itemDialog");
+const dialogContent = document.getElementById("dialogContent");
+
+let selectedCategory = "All";
+let toastTimer;
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function renderItems() {
+  const query = itemSearch.value.trim().toLowerCase();
+
+  const filtered = wasteItems.filter(item => {
+    const matchesCategory =
+      selectedCategory === "All" || item.category === selectedCategory;
+
+    const searchable =
+      `${item.name} ${item.category} ${item.description} ${item.tip}`.toLowerCase();
+
+    return matchesCategory && searchable.includes(query);
+  });
+
+  wasteGrid.innerHTML = filtered.map(item => {
+    const originalIndex = wasteItems.indexOf(item);
+    const meta = categoryMeta[item.category];
+
+    return `
+      <article class="waste-card flex flex-col rounded-3xl border border-emerald-900/10 bg-white p-5 shadow-sm sm:p-6">
+        <div class="flex items-start justify-between gap-3">
+          <span class="grid h-16 w-16 place-items-center rounded-2xl ${item.color} text-4xl">${item.emoji}</span>
+          <span class="rounded-full px-3 py-1.5 text-xs font-extrabold ${meta.badge}">
+            ${meta.icon} ${meta.label}
+          </span>
+        </div>
+        <h3 class="mt-5 text-xl font-extrabold text-forest">${escapeHTML(item.name)}</h3>
+        <p class="mt-2 flex-1 text-sm leading-6 text-slate-600">${escapeHTML(item.description)}</p>
+        <button class="details-btn mt-5 flex w-full items-center justify-between rounded-xl border border-emerald-900/10 px-4 py-3 text-sm font-bold text-forest hover:border-leaf hover:bg-mint" data-index="${originalIndex}">
+          View sorting steps <span>↗</span>
+        </button>
+      </article>`;
+  }).join("");
+
+  resultsCount.textContent = filtered.length === wasteItems.length
+    ? `Showing all ${filtered.length} items`
+    : `Showing ${filtered.length} of ${wasteItems.length} items`;
+
+  emptyState.classList.toggle("hidden", filtered.length !== 0);
+  wasteGrid.classList.toggle("hidden", filtered.length === 0);
+  clearFilters.classList.toggle("hidden", !query && selectedCategory === "All");
+}
+
+function setCategory(category) {
+  selectedCategory = category;
+
+  document.querySelectorAll(".category-btn").forEach(button => {
+    const active = button.dataset.category === category;
+
+    button.classList.toggle("active", active);
+    button.classList.toggle("bg-white", !active);
+    button.classList.toggle("text-slate-600", !active);
+  });
+
+  renderItems();
+}
+
+function openItemDetails(index) {
+  const item = wasteItems[index];
+  if (!item) return;
+
+  const meta = categoryMeta[item.category];
+
+  dialogContent.innerHTML = `
+    <div class="bg-mint p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4">
+        <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white text-4xl">${item.emoji}</span>
+        <button id="closeDialog" class="grid h-10 w-10 place-items-center rounded-full bg-white text-xl text-forest" aria-label="Close details">×</button>
+      </div>
+      <span class="mt-5 inline-flex rounded-full px-3 py-1.5 text-xs font-extrabold ${meta.badge}">
+        ${meta.icon} ${meta.label}
+      </span>
+      <h2 class="mt-3 text-2xl font-black text-forest">${escapeHTML(item.name)}</h2>
+      <p class="mt-2 leading-6 text-slate-600">${escapeHTML(item.description)}</p>
+    </div>
+
+    <div class="p-6 sm:p-8">
+      <h3 class="text-lg font-extrabold text-forest">How to handle it</h3>
+      <ol class="mt-4 space-y-3">
+        ${item.steps.map((step, i) => `
+          <li class="flex gap-3 text-sm leading-6 text-slate-600">
+            <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-mint text-xs font-extrabold text-forest">${i + 1}</span>
+            <span>${escapeHTML(step)}</span>
+          </li>
+        `).join("")}
+      </ol>
+      <div class="mt-5 rounded-2xl border border-emerald-900/10 bg-limewash p-4">
+        <p class="text-sm font-extrabold text-forest">Eco tip</p>
+        <p class="mt-1 text-sm leading-6 text-slate-600">${escapeHTML(item.tip)}</p>
+      </div>
+      <p class="mt-4 text-xs leading-5 text-slate-400">Always confirm local disposal and collection rules.</p>
+    </div>`;
+
+  itemDialog.showModal();
+
+  document.getElementById("closeDialog").addEventListener("click", () => {
+    itemDialog.close();
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+  toast.classList.add("toast");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.classList.add("hidden");
+    toast.classList.remove("toast");
+  }, 3000);
+}
+
+// Category filters
+document.getElementById("categoryFilters").addEventListener("click", event => {
+  const button = event.target.closest("[data-category]");
+  if (button) setCategory(button.dataset.category);
+});
+
+// Live item search
+itemSearch.addEventListener("input", renderItems);
+
+// Hero search
+document.getElementById("heroSearchForm").addEventListener("submit", event => {
+  event.preventDefault();
+  itemSearch.value = heroSearch.value;
+  setCategory("All");
+  document.getElementById("explore").scrollIntoView({ behavior: "smooth" });
+});
+
+// Popular searches
+document.querySelectorAll(".quick-search").forEach(button => {
+  button.addEventListener("click", () => {
+    heroSearch.value = button.dataset.search;
+    itemSearch.value = button.dataset.search;
+    setCategory("All");
+    document.getElementById("explore").scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+// Open sorting instructions
+wasteGrid.addEventListener("click", event => {
+  const button = event.target.closest(".details-btn");
+  if (button) openItemDetails(Number(button.dataset.index));
+});
+
+// Close dialog by clicking outside
+itemDialog.addEventListener("click", event => {
+  if (event.target === itemDialog) itemDialog.close();
+});
+
+// Reset all filters
+function resetFilters() {
+  itemSearch.value = "";
+  heroSearch.value = "";
+  setCategory("All");
+}
+
+clearFilters.addEventListener("click", resetFilters);
+document.getElementById("emptyClear").addEventListener("click", resetFilters);
+
+// Demo suggestion form
+document.getElementById("suggestForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const name = document.getElementById("suggestName").value.trim();
+  const category = document.getElementById("suggestCategory").value;
+  const note = document.getElementById("suggestNote").value.trim();
+
+  if (!name || !category) return;
+
+  const feedback = document.getElementById("suggestFeedback");
+
+  feedback.textContent =
+    `Thanks! "${name}" was added as a demo suggestion under ${category}` +
+    (note ? ` — Note: ${note}` : "") +
+    ". It has not been sent to a server.";
+
+  feedback.classList.remove("hidden");
+  showToast("Your demo suggestion has been recorded on this page.");
+  event.target.reset();
+});
+
+// Automatically update copyright year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Initial display
+renderItems();
+</script>
+
+</body>
+</html>
