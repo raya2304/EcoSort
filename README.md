@@ -59,7 +59,7 @@ EcoSort/
 
 ## Learning Outcomes
 
-This project demonstrates practical front-end development skills, including DOM manipulation, event handling, dynamic rendering, search and filter logic, modal interactions, responsive web design, and Tailwind CSS styling.
+This project demonstrates practical front-end development skills, including DOM manipulation, event handling, dynamic rendering, search and filter logic, modal interactions, responsive  web design, and Tailwind CSS styling.
 
 ## Future Enhancements
 
